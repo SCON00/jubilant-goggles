@@ -5,6 +5,6 @@ public interface StationService {
 	/*
 	 * 역 정보 서비스 인터페이스
 	 */
-	int stationInfo(String stationName);
+	String stationInfo(String stationName);
 	
 }

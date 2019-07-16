@@ -13,10 +13,10 @@ public class StationServiceImpl implements StationService{
 	private StationDAO stationDAO;
 	
 	@Override
-	public int stationInfo(String stationName) {
+	public String stationInfo(String stationName) {
 		
 		System.out.println(stationName + ": Service");
-		int result = stationDAO.selectStationByName(stationName);
+		String result = stationDAO.selectStationByName(stationName);
 		return result;
 	}
 

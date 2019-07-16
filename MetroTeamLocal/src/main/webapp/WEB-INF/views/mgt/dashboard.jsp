@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -34,13 +35,46 @@
     </style>
     <!-- Custom styles for this template -->
     <link href="/resources/css/dashboard.css" rel="stylesheet">
+
+<script src="/resources/js/jquery-3.4.1.js"></script>
+	
+	<script src="/resources/js/bootstrap.bundle.js"></script>
+	
+	<script type="text/javascript">
+		$(function(){
+			
+			$('#ajax_test').click(function(){
+				
+				$.ajax({
+					type: "get",
+					url: "getLines.do",
+					success : function(data){
+						alert("!!!");
+					}
+				});
+			});
+			$('input[type="text"]').keypress(function(e){
+				if(e.which == 13){
+					var apiKey = $(this).val();
+					if(apiKey != null){
+						$.ajax({
+							type: "get",
+							url: "addKey.do/" + apiKey,
+							success : function(data){
+								alert(data);
+							}
+						});
+					}
+				}				
+			});
+		});
+	</script>
+
   </head>
 <body>
-	<nav
-		class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company
-			name</a> <input class="form-control form-control-dark w-100" type="text"
-			placeholder="Search" aria-label="Search">
+	<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company	name</a> 
+		<input class="form-control form-control-dark w-100" type="text"	placeholder="Search" aria-label="Search">
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap"><a class="nav-link" href="#">Sign
 					out</a></li>
@@ -56,20 +90,20 @@
 								<span data-feather="home"></span> Dashboard <span
 								class="sr-only">(current)</span>
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span 
-								data-feather="file"></span> Orders
+						<li class="nav-item"><a class="nav-link" href="memberBoard"> <span 
+								data-feather="file"></span> 회원관리
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="shopping-cart"></span> Products
+						<li class="nav-item"><a class="nav-link" href="stationBoard"> <span
+								data-feather="shopping-cart"></span> 역정보 관리
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="users"></span> Customers
+						<li class="nav-item"><a class="nav-link" href="scheduleBoard"> <span
+								data-feather="users"></span> 열차 스케줄 관리
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="bar-chart-2"></span> Reports
+						<li class="nav-item"><a class="nav-link" href="noticeBoard"> <span
+								data-feather="bar-chart-2"></span> 공지사항
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="layers"></span> Integrations
+						<li class="nav-item"><a class="nav-link" href="qnaBoard"> <span
+								data-feather="layers"></span> 문의사항
 						</a></li>
 					</ul>
 
@@ -96,180 +130,17 @@
 					</ul>
 				</div>
 			</nav>
-
+			
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-			<div
-				class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-				<h1 class="h2">Dashboard</h1>
-				<div class="btn-toolbar mb-2 mb-md-0">
-					<div class="btn-group mr-2">
-						<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-						<button id="ajax_test" type="button" class="btn btn-sm btn-outline-secondary">Test</button>
-						<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-					</div>
-					<button type="button"
-						class="btn btn-sm btn-outline-secondary dropdown-toggle">
-						<span data-feather="calendar"></span> This week
-					</button>
-				</div>
-			</div>
-
-			<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-
-			<h2>Section title</h2>
-			<div class="table-responsive">
-				<table class="table table-striped table-sm">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Header</th>
-							<th>Header</th>
-							<th>Header</th>
-							<th>Header</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>1,001</td>
-							<td>Lorem</td>
-							<td>ipsum</td>
-							<td>dolor</td>
-							<td>sit</td>
-						</tr>
-						<tr>
-							<td>1,002</td>
-							<td>amet</td>
-							<td>consectetur</td>
-							<td>adipiscing</td>
-							<td>elit</td>
-						</tr>
-						<tr>
-							<td>1,003</td>
-							<td>Integer</td>
-							<td>nec</td>
-							<td>odio</td>
-							<td>Praesent</td>
-						</tr>
-						<tr>
-							<td>1,003</td>
-							<td>libero</td>
-							<td>Sed</td>
-							<td>cursus</td>
-							<td>ante</td>
-						</tr>
-						<tr>
-							<td>1,004</td>
-							<td>dapibus</td>
-							<td>diam</td>
-							<td>Sed</td>
-							<td>nisi</td>
-						</tr>
-						<tr>
-							<td>1,005</td>
-							<td>Nulla</td>
-							<td>quis</td>
-							<td>sem</td>
-							<td>at</td>
-						</tr>
-						<tr>
-							<td>1,006</td>
-							<td>nibh</td>
-							<td>elementum</td>
-							<td>imperdiet</td>
-							<td>Duis</td>
-						</tr>
-						<tr>
-							<td>1,007</td>
-							<td>sagittis</td>
-							<td>ipsum</td>
-							<td>Praesent</td>
-							<td>mauris</td>
-						</tr>
-						<tr>
-							<td>1,008</td>
-							<td>Fusce</td>
-							<td>nec</td>
-							<td>tellus</td>
-							<td>sed</td>
-						</tr>
-						<tr>
-							<td>1,009</td>
-							<td>augue</td>
-							<td>semper</td>
-							<td>porta</td>
-							<td>Mauris</td>
-						</tr>
-						<tr>
-							<td>1,010</td>
-							<td>massa</td>
-							<td>Vestibulum</td>
-							<td>lacinia</td>
-							<td>arcu</td>
-						</tr>
-						<tr>
-							<td>1,011</td>
-							<td>eget</td>
-							<td>nulla</td>
-							<td>Class</td>
-							<td>aptent</td>
-						</tr>
-						<tr>
-							<td>1,012</td>
-							<td>taciti</td>
-							<td>sociosqu</td>
-							<td>ad</td>
-							<td>litora</td>
-						</tr>
-						<tr>
-							<td>1,013</td>
-							<td>torquent</td>
-							<td>per</td>
-							<td>conubia</td>
-							<td>nostra</td>
-						</tr>
-						<tr>
-							<td>1,014</td>
-							<td>per</td>
-							<td>inceptos</td>
-							<td>himenaeos</td>
-							<td>Curabitur</td>
-						</tr>
-						<tr>
-							<td>1,015</td>
-							<td>sodales</td>
-							<td>ligula</td>
-							<td>in</td>
-							<td>libero</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+			<jsp:include page="${boardName}.jsp"></jsp:include>
 			</main>
 		</div>
 	</div>
 	
-	<script src="/resources/js/jquery-3.4.1.js"></script>
-	<!--  <script>window.jQuery || document.write('<script src="../../resources/js/jquery-3.4.1.js"><\/script>')</script> -->
-	<script src="/resources/js/bootstrap.bundle.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 	<script src="/resources/js/dashboard.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			
-			$('#ajax_test').click(function(){
-				
-				$.ajax({
-					type: "get",
-					url: "getLines.do",
-					success : function(data){
-						alert("!!!");
-					}
-				});
-			});
-		});
-	</script>
 </body>
 </html>

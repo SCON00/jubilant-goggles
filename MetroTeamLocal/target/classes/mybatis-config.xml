@@ -7,6 +7,8 @@
 <!-- alias 설정 -->
 <typeAliases>
 	<typeAlias type="com.metro.domain.MemberVO" alias='member'/>
+	<typeAlias type="com.metro.domain.StationVO" alias='station'/>
+	<typeAlias type="com.metro.domain.CsVO" alias='cs'/>
 </typeAliases>
 </configuration>
 

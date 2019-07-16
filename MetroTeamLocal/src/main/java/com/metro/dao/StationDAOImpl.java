@@ -15,15 +15,17 @@ public class StationDAOImpl implements StationDAO {
 	private SqlSessionTemplate mybatis;
 	
 	@Override
-	public int selectStationByName(String stationName) {
+	public String selectStationByName(String stationName) {
 		System.out.println(stationName + ": DAO");
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("stationName", stationName);
 		List<String> list = mybatis.selectList("station.selectByName", map);
+		String result = "";
 		for(String s : list) {
-			System.out.println(s);
+			result += "<" + s + ">";			
 		}
-		return 0;
+		System.out.println(result);
+		return result;
 	}
 
 }

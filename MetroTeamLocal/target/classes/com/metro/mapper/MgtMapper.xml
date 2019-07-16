@@ -4,5 +4,65 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mgt">
+
+	<resultMap id="memberResult" type="member">
+		<id property="memberId" column="MID" />
+		<result property="memberMail" column="EMAIL" />
+		<result property="memberPhone" column="MTEL" />
+		<result property="memberPass" column="PASS" />
+		<result property="memberName" column="USERNAME" />
+		<result property="memberIntro" column="INTRO" />
+		<result property="memberDate" column="MDATE" />
+	</resultMap>
 	
+	<resultMap id="stationResult" type="station">
+		<id property="stationCode" column="STATION_CODE" />
+		<result property="stationName" column="STATION_NAME" />
+		<result property="stationNameEng" column="STATION_NAME_ENG" />
+		<result property="lineNumber" column="LINE" />
+		<result property="fCode" column="F_CODE" />
+	</resultMap>
+	
+	<resultMap id="noticeResult" type="cs">
+		<id property="nid" column="NID" />
+		<result property="ntitle" column="NTITLE" />
+		<result property="ncontent" column="NCONTENT" />
+		<result property="ndate" column="NDATE" />
+		<result property="lno" column="LNO" />
+		<result property="cnt" column="CNT" />
+	</resultMap>
+	
+	<insert id="insertKey" parameterType="String">
+		INSERT INTO api_table 
+		VALUES (#{apiKey})
+	</insert>
+	
+	<select id="selectMember" resultMap="memberResult">
+		SELECT * FROM 
+		member
+	</select>
+	
+	<select id="selectStation" resultMap="stationResult">
+		SELECT * FROM stations 
+		WHERE ROWNUM <![CDATA[<]]> 11 
+		ORDER BY station_code
+	</select>
+	
+	<select id="selectNotice" resultMap="noticeResult">
+		SELECT * FROM notice 
+		WHERE ROWNUM <![CDATA[<]]> 11 
+		ORDER BY NDATE 
+	</select>
+	
+	<select id="selectExitNumber" parameterType="String" resultType="String">
+		SELECT exit_number FROM station_exits 
+		WHERE station_code = #{stationCode} 
+		GROUP BY exit_number
+	</select>
+	
+	<select id="selectExitInfo" parameterType="map" resultType="String">
+		SELECT spot FROM station_exits 
+		WHERE station_code = #{stationCode} 
+		AND exit_number = #{exitNumber} 	
+	</select>
 </mapper>

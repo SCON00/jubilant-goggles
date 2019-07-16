@@ -4,11 +4,18 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.metro.dao.MgtDAO;
+import com.metro.domain.CsVO;
+import com.metro.domain.MemberVO;
+import com.metro.domain.StationVO;
 
 @Service("mgtService")
 public class MgtServiceImpl implements MgtService {
@@ -18,6 +25,9 @@ public class MgtServiceImpl implements MgtService {
 	private static String qString = "/json/octastatapi262/1/5/";
 	private static String sName = "";
 
+	@Autowired
+	private MgtDAO mgtDAO;
+	
 	@Override
 	public int updateLines() {
 		
@@ -49,6 +59,36 @@ public class MgtServiceImpl implements MgtService {
 		}
 		
 		return 0;
+	}
+
+	@Override
+	public int addKey(String apiKey) {			// apiKey 추가등록
+		int result = mgtDAO.insertKey(apiKey);
+		return result;
+	}
+
+	@Override
+	public List<MemberVO> getMembers() {
+		
+		return mgtDAO.selectAllMember();
+	}
+
+	@Override
+	public List<StationVO> getStations() {
+		
+		return mgtDAO.selectAllStation();
+	}
+
+	@Override
+	public List<CsVO> getNotice() {
+		
+		return mgtDAO.selectAllNotice();
+	}
+
+	@Override
+	public String getExitInfo(String stationCode) {
+		String result = new Gson().toJson(mgtDAO.selectExitInfo(stationCode));
+		return result;
 	}
 
 }

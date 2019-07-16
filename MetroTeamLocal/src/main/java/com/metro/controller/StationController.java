@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.metro.service.StationService;
 
@@ -21,9 +22,12 @@ public class StationController {
 	}
 	
 	@RequestMapping(value="station.do/{stationName}", method = RequestMethod.GET)
-	public int station(@PathVariable("stationName") String stationName) {
+	public ModelAndView station(@PathVariable("stationName") String stationName) {
+		ModelAndView mv = new ModelAndView();
 		System.out.println(stationName + ": Controller");
-		int result = stationService.stationInfo(stationName);
-		return result;
+		String result = stationService.stationInfo(stationName);
+		mv.addObject("result", result);
+		mv.setViewName("station/station");
+		return mv;
 	}
 }
