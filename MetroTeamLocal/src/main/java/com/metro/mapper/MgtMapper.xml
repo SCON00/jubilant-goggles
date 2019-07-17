@@ -42,10 +42,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		member
 	</select>
 	
-	<select id="selectStation" resultMap="stationResult">
+	<select id="selectStation" parameterType="String" resultMap="stationResult">
 		SELECT * FROM stations 
 		WHERE ROWNUM <![CDATA[<]]> 11 
-		ORDER BY station_code
+		<if test="value != null">
+		AND 
+		(station_code LIKE '%'||#{value}||'%' 
+		OR station_name LIKE '%'||#{value}||'%') 
+		</if>
+		<!-- ORDER BY station_code -->
 	</select>
 	
 	<select id="selectNotice" resultMap="noticeResult">
@@ -56,13 +61,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectExitNumber" parameterType="String" resultType="String">
 		SELECT exit_number FROM station_exits 
-		WHERE station_code = #{stationCode} 
+		WHERE station_name = #{stationName} 
 		GROUP BY exit_number
 	</select>
 	
 	<select id="selectExitInfo" parameterType="map" resultType="String">
 		SELECT spot FROM station_exits 
-		WHERE station_code = #{stationCode} 
+		WHERE station_name = #{stationName} 
 		AND exit_number = #{exitNumber} 	
+	</select>
+	
+	<select id="selectByStationCode" parameterType="String" resultType="String">
+		SELECT station_name 
+		FROM stations 
+		WHERE station_code = #{stationCode}
+	</select>
+	
+	<select id="selectStationCode" parameterType="String" resultType="String">
+		SELECT MIN(station_code) FROM stations 
+		WHERE station_name = (SELECT station_name FROM stations WHERE station_code = #{stationCode})
 	</select>
 </mapper>

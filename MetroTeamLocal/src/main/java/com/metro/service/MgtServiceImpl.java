@@ -91,4 +91,16 @@ public class MgtServiceImpl implements MgtService {
 		return result;
 	}
 
+	@Override
+	public String getStations(String searchWord) {
+		String result = new Gson().toJson(mgtDAO.selectStations(searchWord));
+		return result;
+	}
+
+	@Override
+	public String getStationCode(String stationCode) {
+		
+		return mgtDAO.selectStationCode(stationCode);
+	}
+
 }

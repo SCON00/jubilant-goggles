@@ -5,20 +5,34 @@ $(function(){
 	$('.station-map').click(function(){		
 		
 		stationMap($(this).text());
+		exitInfo($(this).text());
+	});
+	
+	$('#search-button').click(function(){
+		stationList($('#search-station').val());
 	});
 });
 
 function stationMap(code){
-	// 서울시 역코드로 지하철역 위치 조회
-	$.getJSON("http://openapi.seoul.go.kr:8088/5651457766776f6f38366244585056/json/SearchLocationOfSTNByIDService/1/1/" + code, 
-			function(data){
-					var coord = data.SearchLocationOfSTNByIDService.row[0];
-					var yCoord = coord.YPOINT_WGS;
-					var xCoord = coord.XPOINT_WGS;
-					
-					console.log("X:" + xCoord + ", Y:" + yCoord);
-					getMap(xCoord,yCoord);				
-	});
+	
+	// 역코드 해당역에서 가장 빠른 코드 번호 조회
+	$.ajax({
+		type : "get",
+		url : "/mgt/stationCode.do/" + code,
+		success : function(data){
+			
+			// 서울시 역코드로 지하철역 위치 조회
+			$.getJSON("http://openapi.seoul.go.kr:8088/5651457766776f6f38366244585056/json/SearchLocationOfSTNByIDService/1/1/" + data, 
+					function(data){
+							var coord = data.SearchLocationOfSTNByIDService.row[0];
+							var yCoord = coord.YPOINT_WGS;
+							var xCoord = coord.XPOINT_WGS;
+							
+							console.log("X:" + xCoord + ", Y:" + yCoord);
+							getMap(xCoord,yCoord);				
+			});
+		}
+	});	
 }
 
 function getMap(x,y){
@@ -32,33 +46,42 @@ function getMap(x,y){
 }
 
 function exitInfo(code){
+	var colorWheel = new Array("primary","secondary","success", "danger","warning","info","dark");
 	$.ajax({
 		type : "get",
 		data : {"stationCode" : code},
 		url : "/mgt/exitInfo.do",
 		dataType : "json",
 		success : function(data){
+			var cols = $('.card-columns-exits');
+			cols.empty();
 			var exits = Object.keys(data);
 			for(var i=0; i < exits.length; i++){
-				console.log(exits[i] + ": " + data[exits[i]]);
+				cols.append("<div class='card bg-" + colorWheel[i%colorWheel.length] + " text-white text-center p-3'></div>");
+				var div = cols.find("div:nth-of-type(" + (i+1) + ")");
+				div.append("<blockquote class='blockquote mb-0'></blockquote>");
+				var bQuote = div.find("blockquote");
+				bQuote.append("<p>" + data[exits[i]] + "</p>");
+				bQuote.append("<footer class='blockquote-footer text-white'></footer>");
+				bQuote.find("footer").append("<small>" + exits[i] +  "<cite title='Source Title'> 번 출구 </cite></small>");
 			}
 		}
 	});
 }
-/*
-<div class="card bg-${i} text-white text-center p-3">
-<blockquote class="blockquote mb-0">
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		Integer posuere erat.</p>
-	<footer class="blockquote-footer text-white">
-		<small> Someone famous in <cite title="Source Title">Source
-				Title</cite>
-		</small>
-	</footer>
-</blockquote>
-</div>
 
-*/
+function stationList(searchWord){
+	
+	$.ajax({
+		type : "get",
+		url : "/mgt/stationInfo.do/" + searchWord,
+		dataType : "json",
+		success : function(data){
+			for(var a in data){
+				console.log(data[a]);
+			}
+		}
+	});
+}
 
 
 

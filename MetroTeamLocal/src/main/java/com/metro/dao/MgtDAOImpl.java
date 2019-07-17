@@ -44,18 +44,38 @@ public class MgtDAOImpl implements MgtDAO {
 
 	@Override
 	public Map selectExitInfo(String stationCode) {
-		List<String> list = mybatis.selectList("mgt.selectExitNumber", stationCode);
+		
+		// stations 테이블에서 역이름 조회
+		String stationName = mybatis.selectOne("mgt.selectByStationCode", stationCode);
+		// station_exits 테이블에서 출구번호 조회
+		List<String> list = mybatis.selectList("mgt.selectExitNumber", stationName);
 		
 		Map dataMap = new HashMap(); 
+		
 		for(String s : list) {
+			
 			Map map = new HashMap();
-			map.put("stationCode", stationCode);
+			
+			map.put("stationName", stationName);
 			map.put("exitNumber", s);
 			
+			// 출구별 정보조회
 			List<String> data = mybatis.selectList("mgt.selectExitInfo", map);
 			dataMap.put(s, data.toString());
 		}
 		return dataMap;
+	}
+
+	@Override
+	public List<StationVO> selectStations(String searchWord) {
+		
+		return mybatis.selectList("mgt.selectStation", searchWord);
+	}
+
+	@Override
+	public String selectStationCode(String stationCode) {
+		
+		return mybatis.selectOne("mgt.selectStationCode", stationCode);
 	}
 
 	

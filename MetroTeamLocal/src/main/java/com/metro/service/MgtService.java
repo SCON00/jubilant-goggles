@@ -22,4 +22,8 @@ public interface MgtService {
 	List<CsVO> getNotice();					// 공지사항 조회
 
 	String getExitInfo(String stationCode);	// 출구정보 조회
+
+	String getStations(String searchWord);	// 역 정보 검색
+
+	String getStationCode(String stationCode);	// 역 코드 우선 순위 조회
 }

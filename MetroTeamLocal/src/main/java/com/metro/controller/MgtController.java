@@ -47,6 +47,32 @@ public class MgtController {
 		return result;
 	}
 	
+	/**
+	 * 검색어로 역정보 조회
+	 * @param searchWord
+	 * @return
+	 */
+	@RequestMapping(value="stationInfo.do/{searchWord}", produces="application/text; charset=utf8")
+	@ResponseBody
+	public String stationInfo(@PathVariable("searchWord") String searchWord) {
+		String result = mgtService.getStations(searchWord);
+		return result;
+	}
+
+	/**
+	 * 역 마다 복수 개의 역코드 보유
+	 * 가장 빠른 번호를 이용하여 정보 조회
+	 * @param stationCode
+	 * @return 역코드 중 가장 빠른 번호
+	 */
+	@RequestMapping(value="stationCode.do/{stationCode}", produces="application/text; charset=utf8")
+	@ResponseBody
+	public String stationCode(@PathVariable("stationCode") String stationCode) {
+		System.out.println("Controller: " + stationCode);
+		String result = mgtService.getStationCode(stationCode);
+		return result;
+	}
+	
 	@RequestMapping(value="dashboard.do/{boardName}")	// 관리자 사이드 탭 이동
 	public ModelAndView admin(@PathVariable("boardName") String boardName) {
 		
@@ -55,8 +81,9 @@ public class MgtController {
 		if(boardName == null || boardName.equals("")) {
 			boardName = "memberBoard";
 		}
-		String[]colorWheel = {"primary","secondary","success", "danger","warning","info","dark"};
+		
 		String type = boardName.replaceAll("Board", "");
+		String[]colorWheel = {"primary","secondary","success", "danger","warning","info","dark"};
 		mv.addObject("colorWheel", colorWheel);
 		
 		// 탭 구분 정보 조회
