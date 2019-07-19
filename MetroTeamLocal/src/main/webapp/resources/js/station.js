@@ -2,14 +2,35 @@
  * 
  */
 $(function(){
-	$('.station-map').click(function(){		
+	
+	// 역 코드 클릭 이벤트
+	$(document).on("click",'.station-map',function(){		
 		
 		stationMap($(this).text());
 		exitInfo($(this).text());
 	});
 	
+	// 검색 버튼 클릭
 	$('#search-button').click(function(){
 		stationList($('#search-station').val());
+	});
+	
+	// 노선 클릭 - 드롭다운 버튼
+	var lineList = $('#line-list').find('a');
+	lineList.click(function(){
+		
+		lineList.removeClass("active");
+		$(this).addClass("active");
+		$.ajax({
+			type : "get",
+			data : {"line" : $(this).text()},
+			url : "/mgt/stationInfo.do",
+			dataType : "json",
+			success : function(data){
+				listStation(data);
+				$('#this-page').text(1);
+			}
+		});
 	});
 });
 
@@ -28,7 +49,7 @@ function stationMap(code){
 							var yCoord = coord.YPOINT_WGS;
 							var xCoord = coord.XPOINT_WGS;
 							
-							console.log("X:" + xCoord + ", Y:" + yCoord);
+							//console.log("X:" + xCoord + ", Y:" + yCoord);
 							getMap(xCoord,yCoord);				
 			});
 		}
@@ -46,15 +67,30 @@ function getMap(x,y){
 }
 
 function exitInfo(code){
+	
 	var colorWheel = new Array("primary","secondary","success", "danger","warning","info","dark");
+	
+	// 지하철 출구정보 조회
 	$.ajax({
 		type : "get",
 		data : {"stationCode" : code},
 		url : "/mgt/exitInfo.do",
 		dataType : "json",
 		success : function(data){
+			
 			var cols = $('.card-columns-exits');
 			cols.empty();
+			if(jQuery.isEmptyObject(data)){
+				cols.append("<div class='card bg-primary text-white text-center p-3'></div>");
+				var div = cols.find("div:nth-of-type(1)");
+				div.append("<blockquote class='blockquote mb-0'></blockquote>");
+				var bQuote = div.find("blockquote");
+				bQuote.append("<p>출구정보가 존재하지 않습니다.</p>");
+				bQuote.append("<footer class='blockquote-footer text-white'></footer>");
+				bQuote.find("footer").append("<small>00<cite title='Source Title'> 번 출구 </cite></small>");
+				return;
+			}
+			
 			var exits = Object.keys(data);
 			for(var i=0; i < exits.length; i++){
 				cols.append("<div class='card bg-" + colorWheel[i%colorWheel.length] + " text-white text-center p-3'></div>");
@@ -71,19 +107,67 @@ function exitInfo(code){
 
 function stationList(searchWord){
 	
+	// 지하철 역 검색
 	$.ajax({
 		type : "get",
-		url : "/mgt/stationInfo.do/" + searchWord,
+		data : {
+				"searchWord" : searchWord,
+				"page" : 1
+			},
+		url : "/mgt/stationInfo.do",
 		dataType : "json",
 		success : function(data){
-			for(var a in data){
-				console.log(data[a]);
-			}
+			listStation(data);
+			$('#this-page').text(1);
+		},
+		error : function(e){
+			console.log(e.status);
+			console.log(e);
 		}
 	});
 }
 
+function listByPage(page){
+	
+	var lineNum = $('#line-list').find('.active').text();
+	var searchWord = $('#search-station').val();
+	
+	// page 이동 함수
+	$.ajax({
+		type : "get",
+		data : {
+				"page" : page,
+				"line" : lineNum,
+				"searchWord" : searchWord
+			},
+		url : "/mgt/stationInfo.do",
+		dataType : "json",
+		success : function(data){
+			listStation(data);
+		}
+	});
+	
+	$('#this-page').text(page);
+}
 
+function listStation(data){
+	
+	var tBody = $('tbody');
+	tBody.empty();
+	var i = 1;
+	for(var a in data){
+		//console.log(data[a]);
+		tBody.append("<tr></tr>");
+		var tr = tBody.find("tr:nth-of-type(" + i + ")");
+		tr.append("<th scope='row'><button type='button' class='station-map btn btn-sm btn-block btn-secondary'>" 
+				+ data[a]["stationCode"] + "</button></th>");
+		tr.append("<td>" + data[a]["stationName"] + "</td>");
+		tr.append("<td>" + data[a]["stationNameEng"] + "</td>");
+		tr.append("<td>" + data[a]["lineNumber"] + "</td>");
+		tr.append("<td>" + data[a]["fCode"] + "</td>");
+		i++;
+	}
+}
 
 
 

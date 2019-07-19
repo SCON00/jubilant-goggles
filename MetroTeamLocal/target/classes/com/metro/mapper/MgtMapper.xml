@@ -42,15 +42,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		member
 	</select>
 	
-	<select id="selectStation" parameterType="String" resultMap="stationResult">
-		SELECT * FROM stations 
-		WHERE ROWNUM <![CDATA[<]]> 11 
-		<if test="value != null">
-		AND 
-		(station_code LIKE '%'||#{value}||'%' 
-		OR station_name LIKE '%'||#{value}||'%') 
-		</if>
-		<!-- ORDER BY station_code -->
+	<select id="selectStation" parameterType="map" resultMap="stationResult">
+		SELECT * 
+		FROM (
+			SELECT ROWNUM rnum, a.* 
+			FROM stations a 
+			<if test="searchWord != null">
+			WHERE station_code LIKE '%'||#{searchWord}||'%' 
+				OR station_name LIKE '%'||#{searchWord}||'%'
+			</if>
+			<if test="line != null">
+		 	WHERE a.line = #{line}
+		 	</if>
+			ORDER BY a.station_code) s 
+		 WHERE (s.rnum BETWEEN ${startIndex} AND ${endIndex}) 
+		 
 	</select>
 	
 	<select id="selectNotice" resultMap="noticeResult">

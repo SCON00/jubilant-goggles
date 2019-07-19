@@ -8,6 +8,13 @@
 <link href="/resources/css/bootstrap.css" rel="stylesheet" />
 <script type="text/javascript" src='/resources/js/jquery-3.4.1.js'></script>
 <script type="text/javascript" src='/resources/js/bootstrap.js'></script>
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=500615dfd78ac5a177e2c8c513d542b6"></script>
+<script type="text/javascript" src='/resources/js/station.js'></script>
+<script>
+	$(function(){
+		stationMap("0331");
+	});
+</script>
 </head>
 <body>
 	<h1 class="display-1">STATION</h1>
@@ -16,7 +23,7 @@
 		<div class='row'>
 			<div class='col-sm'>
 				<div class="card" style="width: 18rem;">
-					<img src="..." class="card-img-top" alt="Station">
+					<div id='map' style="width:100%; height:120px;"></div>
 					<div class="card-body">
 						<h5 class="card-title">Card title</h5>
 						<p class="card-text">Some quick example text to build on the

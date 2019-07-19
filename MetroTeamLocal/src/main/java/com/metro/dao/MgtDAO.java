@@ -14,18 +14,21 @@ public interface MgtDAO {
 	 * 관리자 모듈용 모델 인터페이스
 	 * 	- 메소드 추가 후 Impl 클래스에서 구현
 	 */
-	int insertKey(String apiKey);					// 공공데이터 api key 저장
+	
+	int insertKey(String apiKey);									// 공공데이터 api key 저장
 
-	List<MemberVO> selectAllMember();				// 회원목록 조회
+	List<MemberVO> selectAllMember();								// 회원목록 조회
 
-	List<StationVO> selectAllStation();				// 역 정보 조회
+	List<StationVO> selectAllStation();								// 역 정보 조회
 
-	List<CsVO> selectAllNotice();					// 공지사항 조회
+	List<CsVO> selectAllNotice();									// 공지사항 조회
 
-	Map selectExitInfo(String stationCode);			// 출구정보 조회
+	Map selectExitInfo(String stationCode);							// 출구정보 조회
 
-	List<StationVO> selectStations(String searchWord);	// 역 정보 검색
+	List<StationVO> selectStations(Map map);						// 역 정보 검색
 
-	String selectStationCode(String stationCode);	// 우선순위 역코드 검색
+	String selectStationCode(String stationCode);					// 우선순위 역코드 검색
+
+	List<StationVO> selectStations(int startIndex, int endIndex);	// PAGE List
 	
 }

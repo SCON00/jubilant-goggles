@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.metro.domain.StationVO;
 import com.metro.service.StationService;
 
 @Controller	// 역 관련 서비스 컨트롤러
@@ -24,8 +25,8 @@ public class StationController {
 	@RequestMapping(value="station.do/{stationName}", method = RequestMethod.GET)
 	public ModelAndView station(@PathVariable("stationName") String stationName) {
 		ModelAndView mv = new ModelAndView();
-		System.out.println(stationName + ": Controller");
-		String result = stationService.stationInfo(stationName);
+		
+		StationVO result = stationService.stationInfo(stationName);
 		mv.addObject("result", result);
 		mv.setViewName("station/station");
 		return mv;

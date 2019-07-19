@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.metro.domain.CsVO;
 import com.metro.domain.MemberVO;
 import com.metro.domain.StationVO;
+import com.metro.domain.TrainVO;
 import com.metro.service.MgtService;
 
 @Controller	// 관리자 모듈 컨트롤러
@@ -49,13 +50,20 @@ public class MgtController {
 	
 	/**
 	 * 검색어로 역정보 조회
-	 * @param searchWord
-	 * @return
+	 * @param searchWord 검색어, page 페이지번호, line 노선명
+	 * @return 역 정보 리스트
 	 */
-	@RequestMapping(value="stationInfo.do/{searchWord}", produces="application/text; charset=utf8")
+	@RequestMapping(value="stationInfo.do", produces="application/text; charset=utf8")
 	@ResponseBody
-	public String stationInfo(@PathVariable("searchWord") String searchWord) {
-		String result = mgtService.getStations(searchWord);
+	public String stationInfo(
+			@RequestParam(name="searchWord", required=false) String searchWord,
+			@RequestParam(name="page", defaultValue="1") int page,
+			@RequestParam(name="line", required=false) String line) {
+		System.out.println(line + ", " + searchWord + ", " + page);
+		if("".equals(searchWord)) searchWord=null;
+		if("".equals(line)) line=null;
+		String result = mgtService.getStations(searchWord, page, line);
+		System.out.println(result);
 		return result;
 	}
 
@@ -68,33 +76,41 @@ public class MgtController {
 	@RequestMapping(value="stationCode.do/{stationCode}", produces="application/text; charset=utf8")
 	@ResponseBody
 	public String stationCode(@PathVariable("stationCode") String stationCode) {
-		System.out.println("Controller: " + stationCode);
 		String result = mgtService.getStationCode(stationCode);
 		return result;
 	}
 	
 	@RequestMapping(value="dashboard.do/{boardName}")	// 관리자 사이드 탭 이동
-	public ModelAndView admin(@PathVariable("boardName") String boardName) {
-		
+	public ModelAndView admin(
+			@PathVariable("boardName") String boardName, 
+			@RequestParam(name="page", defaultValue = "1") int page
+			) 
+	{		
 		ModelAndView mv = new ModelAndView();
 		
 		if(boardName == null || boardName.equals("")) {
-			boardName = "memberBoard";
+			boardName = "memberBoard";			
 		}
 		
-		String type = boardName.replaceAll("Board", "");
+		if(page < 1) {
+			page = 1;			
+		}
+		mv.addObject("page", page);
+		
 		String[]colorWheel = {"primary","secondary","success", "danger","warning","info","dark"};
 		mv.addObject("colorWheel", colorWheel);
-		
+						
 		// 탭 구분 정보 조회
+		String type = boardName.replaceAll("Board", "");
 		if(type.equals("member")) {								// 관리자 모듈 - 회원 관리
 			List<MemberVO> list = mgtService.getMembers();		// 회원 리스트
 			mv.addObject("list", list);
-		} else if(type.equals("station")) {						// 관리자 모듈 - 역 정보 관리
-			List<StationVO> list = mgtService.getStations();	// 역 리스트
+		} else if(type.equals("station")) {						// 관리자 모듈 - 역 정보 관리			
+			List<StationVO> list = mgtService.getStations(page);// 역 리스트
 			mv.addObject("list", list);
-		} else if(type.equals("schedule")) {
-		
+		} else if(type.equals("schedule")) {					// 역 도착 정보
+			List<TrainVO> list = mgtService.getSchedule();		// 도착 정보 리스트
+			mv.addObject("list", list);
 		} else if(type.equals("notice")) {						// 관리자 모듈 - 공지사항 관리
 			List<CsVO> list = mgtService.getNotice();			// 공지 리스트
 			mv.addObject("list", list);
@@ -102,8 +118,8 @@ public class MgtController {
 			//List<CsVO> list = mgtService.getQna();
 		}
 		
-		mv.addObject("boardName", boardName);
-		mv.setViewName("mgt/dashboard");
+		mv.addObject("boardName", boardName);					// jsp:include 보드명 지정
+		mv.setViewName("mgt/dashboard");						// 기본 관리자 모듈 JSP
 		return mv;
 	}
 }

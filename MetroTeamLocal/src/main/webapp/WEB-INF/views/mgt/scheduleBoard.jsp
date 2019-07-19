@@ -22,21 +22,21 @@
 	<table class="table table-dark table-hover table-striped table-sm">
 		<thead>
 			<tr>
-				<th>열차방향</th>
+				<th>행선지</th>
 				<th>도착 시간</th>
 				<th>역 이름</th>
-				<th>도착 시간</th>
-				<th>열차방향</th>
+				<th>열차 종류</th>
+				<th>열차 방향</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var='m' items="${list}">
 				<tr>
-					<td>${m.stationTo}</td>
-					<td>${m.arrival}</td>
+					<td>${m.destinationName}</td>
+					<td>${m.arrivalTime}</td>
 					<td>${m.stationName}</td>
-					<td>${m.arrival}</td>
-					<td>${m.stationTo}</td>
+					<td>${m.trainType}</td>
+					<td>${m.directionCode}</td>
 				</tr>
 			</c:forEach>
 

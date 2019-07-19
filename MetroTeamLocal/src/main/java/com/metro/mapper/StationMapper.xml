@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="station">
 	<select id="selectByName" parameterType="hashmap" resultType="String">
 		SELECT station_code FROM stations 
-		WHERE station_name = #{stationName}
+		WHERE station_name = #{value} 
+		ORDER BY station_code
 	</select>
 </mapper>

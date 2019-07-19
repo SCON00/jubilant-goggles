@@ -1,5 +1,10 @@
-/* globals Chart:false, feather:false */
+/**
+ * 
+ * @returns
+ */
 
+
+/* globals Chart:false, feather:false */
 (function () {
   'use strict'
 

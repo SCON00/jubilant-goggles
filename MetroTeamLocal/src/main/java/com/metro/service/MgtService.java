@@ -5,6 +5,7 @@ import java.util.List;
 import com.metro.domain.CsVO;
 import com.metro.domain.MemberVO;
 import com.metro.domain.StationVO;
+import com.metro.domain.TrainVO;
 
 public interface MgtService {
 	
@@ -23,7 +24,11 @@ public interface MgtService {
 
 	String getExitInfo(String stationCode);	// 출구정보 조회
 
-	String getStations(String searchWord);	// 역 정보 검색
+	String getStations(String searchWord, int page, String line);	// 역 정보 검색
 
 	String getStationCode(String stationCode);	// 역 코드 우선 순위 조회
+
+	List<StationVO> getStations(int page);	// PAGING list
+
+	List<TrainVO> getSchedule();			// 스케줄 조회
 }
