@@ -143,7 +143,7 @@
 <script>
 	$(function(){
 		stationMap("0331");
-		exitInfo("0331");		
+		exitInfo("0331", mgtLayout);		
 		
 		$('#previous-page').click(function(){
 			var pageNum = $('#this-page').text() - 1;

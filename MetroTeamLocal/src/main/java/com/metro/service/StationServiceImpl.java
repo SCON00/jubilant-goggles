@@ -4,12 +4,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.metro.dao.StationDAO;
 import com.metro.domain.StationVO;
@@ -25,15 +29,15 @@ public class StationServiceImpl implements StationService{
 	public StationVO stationInfo(String stationName) {
 		
 		
-		// 해당 역 코드 전체 조회
-		List<String> result = stationDAO.selectStationByName(stationName);
-		System.out.println(result.get(0).toString());
+		// 해당 역 코드 조회
+		List<StationVO> list = stationDAO.selectStationByName(stationName);
+		StationVO vo = list.get(0);
 		String apiUrl = 
-				"http://openapi.seoul.go.kr:8088/5651457766776f6f38366244585056/json/SearchLocationOfSTNByIDService/1/5/" 
-						+ result.get(0);
+				"http://openapi.seoul.go.kr:8088/5651457766776f6f38366244585056/json/SearchSTNInfoByIDService/1/5/" 
+						+ vo.getStationCode();
 		URL url;
 		
-		try {	// api 호출한 값 json으로 처리하는 테스트
+		try {	// 지하철 역 정보 api 호출
 			url = new URL(apiUrl);
 
 			HttpURLConnection connection;
@@ -47,20 +51,55 @@ public class StationServiceImpl implements StationService{
 			BufferedReader json  = new BufferedReader(new InputStreamReader(connection.getInputStream()));          
 
 			JsonObject train = new Gson().fromJson(json, JsonObject.class);
-
-			System.out.println("Id: " + train.getAsJsonObject("SearchLocationOfSTNByIDService").get("row").toString());  
 			
-			connection.disconnect();
+			JsonArray result = train.getAsJsonObject("SearchSTNInfoByIDService").get("row").getAsJsonArray();
 			
+			int count = train.getAsJsonObject("SearchSTNInfoByIDService").get("list_total_count").getAsInt();
+						
+			connection.disconnect();	
 			
+			return toStationVO(vo, result.get(count-1).getAsJsonObject());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		
-		
-		return null;
+		return vo;
 	}
 
+	private StationVO toStationVO(StationVO vo, JsonObject jo) {
+
+		Map<String, String> usefulMap = new HashMap<String, String>();
+		usefulMap.put("MINWON", "현장민원소");
+		usefulMap.put("INFOTESK", "관광안내소");
+		usefulMap.put("CULTURE", "문화공간");
+		usefulMap.put("TICKET", "항공권판매");
+		usefulMap.put("OBSTACLE", "장애인시설");
+		usefulMap.put("MEETPLACE", "만남의장소");
+		usefulMap.put("PARKING", "주차장");
+		usefulMap.put("BICYCLE", "자전거보관소");
+		usefulMap.put("MUIN", "무인민원발급기");
+		usefulMap.put("OFFICE", "역무실");
+		usefulMap.put("NURSING", "수유방");
+		usefulMap.put("ELEVATOR", "엘레베이터");
+		usefulMap.put("ESCALATOR", "에스컬레이터");
+		usefulMap.put("WHEELCHAIR", "휠체어리프트시설");
+		usefulMap.put("SPEEDNATE", "스피드게이트");
+		
+		vo.setsPhone(jo.get("TEL").getAsString());
+		vo.setsAddress(jo.get("ADDRESS").getAsString());
+		vo.setUre(jo.get("URE").getAsString());
+		List<String> usefulList = new ArrayList<String>();
+		for(String key : jo.keySet()) {
+			if('Y' == jo.get(key).getAsCharacter()) {
+				usefulList.add(usefulMap.get(key));
+			}
+		};
+		vo.setUseful(usefulList.toString());
+		vo.setsToilet(jo.get("TOILET").getAsString());
+		vo.setxCoord(jo.get("XPOINT_WGS").getAsString());
+		vo.setyCoord(jo.get("YPOINT_WGS").getAsString());
+		
+		return vo;
+	}
 }

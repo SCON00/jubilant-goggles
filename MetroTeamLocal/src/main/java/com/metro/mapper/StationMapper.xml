@@ -3,9 +3,17 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
 <mapper namespace="station">
-	<select id="selectByName" parameterType="hashmap" resultType="String">
-		SELECT station_code FROM stations 
+	<resultMap id="stationResult" type="station">
+		<id property="stationCode" column="STATION_CODE" />
+		<result property="stationName" column="STATION_NAME" />
+		<result property="stationNameEng" column="STATION_NAME_ENG" />
+		<result property="lineNumber" column="LINE" />
+		<result property="fCode" column="F_CODE" />
+	</resultMap>
+	<select id="selectStationByName" parameterType="hashmap" resultMap="stationResult">
+		SELECT * FROM stations 
 		WHERE station_name = #{value} 
 		ORDER BY station_code
 	</select>

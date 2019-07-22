@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.metro.domain.StationVO;
+
 @Repository("stationDAO")
 public class StationDAOImpl implements StationDAO {
 
@@ -13,9 +15,9 @@ public class StationDAOImpl implements StationDAO {
 	private SqlSessionTemplate mybatis;
 	
 	@Override
-	public List<String> selectStationByName(String stationName) {
+	public List<StationVO> selectStationByName(String stationName) {
 		
-		return mybatis.selectList("station.selectByName", stationName);		
+		return mybatis.selectList("station.selectStationByName", stationName);		
 	}
 
 }
