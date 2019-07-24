@@ -5,16 +5,57 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <mapper namespace="station">
+
 	<resultMap id="stationResult" type="station">
 		<id property="stationCode" column="STATION_CODE" />
 		<result property="stationName" column="STATION_NAME" />
 		<result property="stationNameEng" column="STATION_NAME_ENG" />
 		<result property="lineNumber" column="LINE" />
 		<result property="fCode" column="F_CODE" />
+		
 	</resultMap>
-	<select id="selectStationByName" parameterType="hashmap" resultMap="stationResult">
-		SELECT * FROM stations 
-		WHERE station_name = #{value} 
-		ORDER BY station_code
+	
+	<select id="selectByStationCode" parameterType="String" resultType="String">
+		SELECT station_name 
+		FROM stations 
+		WHERE station_code = #{stationCode}
 	</select>
+	
+	<select id="selectStationByID" parameterType="String" resultMap="stationResult">
+		SELECT * FROM stations 
+		WHERE station_code = #{value} 
+	</select>
+	
+	<!-- 
+		stations 테이블은 역의 모든 코드 존재
+		station_exits 테이블은 하나의 코드만 존재
+	-->
+	<select id="selectStationCode" parameterType="String" resultType="String">
+		SELECT station_code 
+		FROM station_exits 
+		WHERE station_code IN (
+								SELECT station_code 
+								FROM stations 
+								WHERE station_name = (
+														SELECT station_name 
+														FROM stations 
+														WHERE station_code=#{value}
+													 )
+							  ) 
+		GROUP BY station_code
+														
+	</select>
+	
+	<select id="selectExitNumber" parameterType="String" resultType="String">
+		SELECT exit_number FROM station_exits 
+		WHERE station_code = #{value} 
+		GROUP BY exit_number
+	</select>
+	
+	<select id="selectExitInfo" parameterType="map" resultType="String">
+		SELECT spot FROM station_exits 
+		WHERE station_code = #{stationCode} 
+		AND exit_number = #{exitNumber} 	
+	</select>
+	
 </mapper>

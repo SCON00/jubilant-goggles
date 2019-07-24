@@ -1,0 +1,161 @@
+@charset "UTF-8";
+
+.line01{
+	background-color:#2A4FAD;
+} 
+.border-line01{
+	border-color:#2A4FAD;
+} 
+.text-line01{
+	color:#2A4FAD;
+} 
+.line02{
+	background-color:#0D883F;
+} 
+.border-line02{
+	border-color:#0D883F;
+} 
+.text-line02{
+	color:#0D883F;
+} 
+.line03{
+	background-color:#E44B1E;
+} 
+.border-line03{
+	border-color:#E44B1E;
+} 
+.text-line03{
+	color:#E44B1E;
+} 
+.line04{
+	background-color:#3C7DDF;
+} 
+.border-line04{
+	border-color:#3C7DDF;
+} 
+.text-line04{
+	color:#3C7DDF;
+} 
+.line05{
+	background-color:#8C3EDD;
+} 
+.border-line05{
+	border-color:#8C3EDD;
+} 
+.text-line05{
+	color:#8C3EDD;
+} 
+.line06{
+	background-color:#C07316;
+} 
+.border-line06{
+	border-color:#C07316;
+} 
+.text-line06{
+	color:#C07316;
+} 
+.line07{
+	background-color:#566612;
+} 
+.border-line07{
+	border-color:#566612;
+} 
+.text-line07{
+	color:#566612;
+} 
+.line08{
+	background-color:#CB33AD;
+} 
+.border-line08{
+	border-color:#CB33AD;
+} 
+.text-line08{
+	color:#CB33AD;
+} 
+.line09{
+	background-color:#C2A917;
+} 
+.border-line09{
+	border-color:#C2A917;
+} 
+.text-line09{
+	color:#C2A917;
+} 
+.line-k{
+	background-color:#32CD32;	/* 경의선 */
+} 
+.border-line-k{
+	border-color:#32CD32;	/* 경의선 */
+} 
+.text-line-k{
+	color:#32CD32;	/* 경의선 */
+} 
+.line-a{
+	background-color:#4169E1;	/* 공항철도 */
+} 
+.border-line-a{
+	border-color:#4169E1;	/* 공항철도 */
+} 
+.text-line-a{
+	color:#4169E1;	/* 공항철도 */
+} 
+.line-g{
+	background-color:#32CD32;	/* 경춘선 */
+} 
+.border-line-g{
+	border-color:#32CD32;	/* 경춘선 */
+} 
+.text-line-g{
+	color:#32CD32;	/* 경춘선 */
+} 
+.line-i{
+	background-color:#6495ED;	/* 인천선 */
+} 
+.border-line-i{
+	border-color:#6495ED;	/* 인천선 */
+} 
+.text-line-i{
+	color:#6495ED;	/* 인천선 */
+} 
+.line-su{
+	background-color:#E9A600;	/* 수인선 */
+} 
+.border-line-su{
+	border-color:#E9A600;	/* 수인선 */
+} 
+.text-line-su{
+	color:#E9A600;	/* 수인선 */
+} 
+.line-b{
+	background-color:#D4A017;	/* 분당선 */
+} 
+.border-line-b{
+	border-color:#D4A017;	/* 분당선 */
+} 
+.text-line-b{
+	color:#D4A017;	/* 분당선 */
+} 
+.line-sb{
+	background-color:#CC1559;	/* 신분당선 */
+} 
+.border-line-sb{
+	border-color:#CC1559;	/* 신분당선 */
+} 
+.text-line-sb{
+	color:#CC1559;	/* 신분당선 */
+} 
+.line-w{
+	background-color:#7EA344;	/* 우이신설경전철 */
+}
+.border-line-w{
+	border-color:#7EA344;	/* 우이신설경전철 */
+}
+.text-line-w{
+	color:#7EA344;	/* 우이신설경전철 */
+}
+/* 의정부경전철, 에버라인 */ 
+
+
+.table-schedule td {
+	width : 3em;
+}

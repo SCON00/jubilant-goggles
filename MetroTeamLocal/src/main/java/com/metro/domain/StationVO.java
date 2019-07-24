@@ -1,21 +1,30 @@
 package com.metro.domain;
 
+import java.util.Map;
+
 public class StationVO {
 
-	private String stationCode;
-	private String stationName;
-	private String stationNameEng;
-	private String lineNumber;
-	private String fCode;
-	private String xCoord;
-	private String yCoord;
-	private String ure;
-	private String useful;
-	private String sAddress;
-	private String sAddressEng;
-	private String sPhone;
-	private String sToilet;
+	private String stationCode;				// 역코드 - 복수 존재
+	private String stationName;				// 역명 - 테이블마다 다를 수 있다
+	private String stationNameEng;			// 영문명
+	private String lineNumber;				// 호선
+	private String fCode;					// 외부코드
+	private String xCoord;					// X 좌표
+	private String yCoord;					// Y 좌표
+	private String ure;						// 설명
+	private String useful;					// 편의시설
+	private String sAddress;				// 역 주소
+	private String sAddressEng;				// 영문 주소 - 안중요
+	private String sPhone;					// 전화번호
+	private String sToilet;					// 화장실 구조
+	private Map<String,String> sExits;		// 출구별 정보
 	
+	public Map<String,String> getsExits() {
+		return sExits;
+	}
+	public void setsExits(Map<String,String> sExits) {
+		this.sExits = sExits;
+	}
 	public String getStationCode() {
 		return stationCode;
 	}

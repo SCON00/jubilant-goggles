@@ -40,7 +40,7 @@
     <tr>
       <th scope="row"><a href='mgt/dashboard.do/stationBoard' class='btn btn-outline-warning'>관리자 모듈</a></th>
     	<td><a href='station/linemap.do' class='btn btn-outline-success'>LINE-MAP</a></td>
-    	<td><a href='station/station.do/서울역' class='btn btn-outline-secondary'>STATION</a></td>
+    	<td><a href='station/station.do/0332' class='btn btn-outline-secondary'>STATION</a></td>
     	<td><a href='cs/noticeList.do' class='btn btn-outline-primary'>공지사항</a></td>
     </tr>
     <tr>

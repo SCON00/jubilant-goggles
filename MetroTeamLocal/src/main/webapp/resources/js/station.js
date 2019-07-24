@@ -82,6 +82,14 @@ function exitInfo(code, fnc){
 	});
 }
 
+function setExitInfo(exitName){
+	// 역 정보 화면 출구별 정보 처리
+	$('.exit-map-card').find('.dropdown-toggle').text(exitName);
+	$('#exit-info').find('p').hide();	
+	var exitNumber = exitName.replace("번 출구", "");
+	$('#exit-' + exitNumber).show();
+}
+
 function mgtLayout(data){
 	// 관리자 모듈 역 출구 정보 출력
 	var cols = $('.card-columns-exits');

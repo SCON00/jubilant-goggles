@@ -26,15 +26,16 @@ public class StationServiceImpl implements StationService{
 	private StationDAO stationDAO;
 	
 	@Override
-	public StationVO stationInfo(String stationName) {
+	public StationVO stationInfo(String stationCode) {
 		
+		System.out.println("StationServiceImpl.stationInfo :IN");
 		
-		// 해당 역 코드 조회
-		List<StationVO> list = stationDAO.selectStationByName(stationName);
-		StationVO vo = list.get(0);
+		// 해당 역 정보 코드로 조회
+		StationVO vo = stationDAO.selectStationByID(stationCode);
+		
 		String apiUrl = 
-				"http://openapi.seoul.go.kr:8088/5651457766776f6f38366244585056/json/SearchSTNInfoByIDService/1/5/" 
-						+ vo.getStationCode();
+				"http://openapi.seoul.go.kr:8088/447a617656776f6f34366b6b554177/json/SearchSTNInfoByIDService/1/5/" 
+						+ stationCode;
 		URL url;
 		
 		try {	// 지하철 역 정보 api 호출
@@ -62,6 +63,9 @@ public class StationServiceImpl implements StationService{
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+
+			System.out.println("StationServiceImpl.stationInfo :OUT");
 		}
 		
 		return vo;
@@ -69,6 +73,7 @@ public class StationServiceImpl implements StationService{
 
 	private StationVO toStationVO(StationVO vo, JsonObject jo) {
 
+		// 편의시설 한글 변환
 		Map<String, String> usefulMap = new HashMap<String, String>();
 		usefulMap.put("MINWON", "현장민원소");
 		usefulMap.put("INFOTESK", "관광안내소");
@@ -86,20 +91,30 @@ public class StationServiceImpl implements StationService{
 		usefulMap.put("WHEELCHAIR", "휠체어리프트시설");
 		usefulMap.put("SPEEDNATE", "스피드게이트");
 		
-		vo.setsPhone(jo.get("TEL").getAsString());
+		vo.setsPhone(jo.get("TEL").getAsString());				
 		vo.setsAddress(jo.get("ADDRESS").getAsString());
 		vo.setUre(jo.get("URE").getAsString());
+		
+		// 편의시설 객체 저장
 		List<String> usefulList = new ArrayList<String>();
 		for(String key : jo.keySet()) {
-			if('Y' == jo.get(key).getAsCharacter()) {
+			if("Y".equals(jo.get(key).getAsString())) {
+				
 				usefulList.add(usefulMap.get(key));
 			}
 		};
 		vo.setUseful(usefulList.toString());
+		
 		vo.setsToilet(jo.get("TOILET").getAsString());
 		vo.setxCoord(jo.get("XPOINT_WGS").getAsString());
 		vo.setyCoord(jo.get("YPOINT_WGS").getAsString());
 		
 		return vo;
+	}
+
+	@Override
+	public Map<String,String> getExitInfo(String stationCode) {
+		
+		return stationDAO.selectExitInfo(stationCode);
 	}
 }

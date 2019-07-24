@@ -26,6 +26,24 @@
   --danger: #dc3545;
   --light: #f8f9fa;
   --dark: #343a40;
+  --line01: #2A4FAD;
+  --line02: #0D883F;
+  --line03: #E44B1E;
+  --line04: #3C7DDF;
+  --line05: #8C3EDD;
+  --line06: #C07316;
+  --line07: #566612;
+  --line08: #CB33AD;
+  --line09: #C2A917;
+  --line-k: #32CD32;	/* 경의선 */
+  --line-a: #4169E1;	/* 공항철도 */
+  --line-g: #32CD32;	/* 경춘선 */
+  --line-i: #6495ED;	/* 인천선 */
+  --line-su: #E9A600;	/* 수인선 */
+  --line-b: #D4A017;	/* 분당선 */
+  --line-sb: #CC1559;	/* 신분당선 */
+  --line-w: #7EA344;	/* 우이신설경전철 */
+  /* 의정부경전철, 에버라인 */
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -153,13 +171,13 @@ sup {
 }
 
 a {
-  color: #007bff;
+  color: /*#007bff*/inherit;
   text-decoration: none;
   background-color: transparent;
 }
 
 a:hover {
-  color: #0056b3;
+  color: /*#0056b3*/inherit;
   text-decoration: underline;
 }
 
