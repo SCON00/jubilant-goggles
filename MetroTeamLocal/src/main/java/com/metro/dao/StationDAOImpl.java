@@ -52,4 +52,23 @@ public class StationDAOImpl implements StationDAO {
 		return dataMap;
 	}
 
+	/**
+	 * 역 기준 노선도 조회
+	 */
+	@Override
+	public Map<String, List<StationVO>> selectLines(String stationCode) {
+		
+		List<String> lineList = mybatis.selectList("station.selectLinesByID", stationCode);
+		
+		Map<String, List<StationVO>> data = new HashMap<String, List<StationVO>>();
+		for(String s : lineList) {
+			List<StationVO> vo = mybatis.selectList("station.selectAllByLine", s);
+			data.put(s, vo);
+		}
+		return data;
+	}
+	
+	
+	
+
 }

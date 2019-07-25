@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="stationCode" column="STATION_CODE" />
 		<result property="stationName" column="STATION_NAME" />
 		<result property="stationNameEng" column="STATION_NAME_ENG" />
-		<result property="lineNumber" column="LINE" />
+		<result property="line" column="LINE" />
 		<result property="fCode" column="F_CODE" />
 	</resultMap>
 	
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		member
 	</select>
 	
-	<select id="selectStation" parameterType="map" resultMap="stationResult">
+	<select id="selectStation" parameterType="map" resultType="station">
 		SELECT * 
 		FROM (
 			SELECT ROWNUM rnum, a.* 

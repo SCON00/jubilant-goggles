@@ -1,130 +1,139 @@
 @charset "UTF-8";
 
 .line01{
-	background-color:#2A4FAD;
+	background-color:#00498B;
 } 
 .border-line01{
-	border-color:#2A4FAD;
+	border-color:#00498B;
 } 
 .text-line01{
-	color:#2A4FAD;
+	color:#00498B;
 } 
 .line02{
-	background-color:#0D883F;
+	background-color:#009246;
 } 
 .border-line02{
-	border-color:#0D883F;
+	border-color:#009246;
 } 
 .text-line02{
-	color:#0D883F;
+	color:#009246;
 } 
 .line03{
-	background-color:#E44B1E;
+	background-color:#F36630;
 } 
 .border-line03{
-	border-color:#E44B1E;
+	border-color:#F36630;
 } 
 .text-line03{
-	color:#E44B1E;
+	color:#F36630;
 } 
 .line04{
-	background-color:#3C7DDF;
+	background-color:#00A2D1;
 } 
 .border-line04{
-	border-color:#3C7DDF;
+	border-color:#00A2D1;
 } 
 .text-line04{
-	color:#3C7DDF;
+	color:#00A2D1;
 } 
 .line05{
-	background-color:#8C3EDD;
+	background-color:#A064A3;
 } 
 .border-line05{
-	border-color:#8C3EDD;
+	border-color:#A064A3;
 } 
 .text-line05{
-	color:#8C3EDD;
+	color:#A064A3;
 } 
 .line06{
-	background-color:#C07316;
+	background-color:#9E4510;
 } 
 .border-line06{
-	border-color:#C07316;
+	border-color:#9E4510;
 } 
 .text-line06{
-	color:#C07316;
+	color:#9E4510;
 } 
 .line07{
-	background-color:#566612;
+	background-color:#5D6519;
 } 
 .border-line07{
-	border-color:#566612;
+	border-color:#5D6519;
 } 
 .text-line07{
-	color:#566612;
+	color:#5D6519;
 } 
 .line08{
-	background-color:#CB33AD;
+	background-color:#D6406A;
 } 
 .border-line08{
-	border-color:#CB33AD;
+	border-color:#D6406A;
 } 
 .text-line08{
-	color:#CB33AD;
+	color:#D6406A;
 } 
 .line09{
-	background-color:#C2A917;
+	background-color:#A17E46;
 } 
 .border-line09{
-	border-color:#C2A917;
+	border-color:#A17E46;
 } 
 .text-line09{
-	color:#C2A917;
+	color:#A17E46;
 } 
 .line-k{
-	background-color:#32CD32;	/* 경의선 */
+	background-color:#72C7A6;	/* 경의선 */
 } 
 .border-line-k{
-	border-color:#32CD32;	/* 경의선 */
+	border-color:#72C7A6;	/* 경의선 */
 } 
 .text-line-k{
-	color:#32CD32;	/* 경의선 */
+	color:#72C7A6;	/* 경의선 */
 } 
 .line-a{
-	background-color:#4169E1;	/* 공항철도 */
+	background-color:#0065B3;	/* 공항철도 */
 } 
 .border-line-a{
-	border-color:#4169E1;	/* 공항철도 */
+	border-color:#0065B3;	/* 공항철도 */
 } 
 .text-line-a{
-	color:#4169E1;	/* 공항철도 */
+	color:#0065B3;	/* 공항철도 */
 } 
 .line-g{
-	background-color:#32CD32;	/* 경춘선 */
+	background-color:#2ABFD0;	/* 경춘선 */
 } 
 .border-line-g{
-	border-color:#32CD32;	/* 경춘선 */
+	border-color:#2ABFD0;	/* 경춘선 */
 } 
 .text-line-g{
-	color:#32CD32;	/* 경춘선 */
+	color:#2ABFD0;	/* 경춘선 */
 } 
 .line-i{
-	background-color:#6495ED;	/* 인천선 */
+	background-color:#6E98BB;	/* 인천선 */
 } 
 .border-line-i{
-	border-color:#6495ED;	/* 인천선 */
+	border-color:#6E98BB;	/* 인천선 */
 } 
 .text-line-i{
-	color:#6495ED;	/* 인천선 */
+	color:#6E98BB;	/* 인천선 */
+} 
+.line-i2{
+	background-color:#ED8B00;	/* 인천2선 */
+} 
+.border-line-i2{
+	border-color:#ED8B00;	/* 인천2선 */
+} 
+.text-line-i2{
+	color:#ED8B00;	/* 인천2선 */
 } 
 .line-su{
-	background-color:#E9A600;	/* 수인선 */
+	background-color: #E9A600;	/* 수인선 */
 } 
 .border-line-su{
-	border-color:#E9A600;	/* 수인선 */
+	border-color: #E9A600;	/* 수인선 */
 } 
 .text-line-su{
-	color:#E9A600;	/* 수인선 */
+	color: #E9A600;	/* 수인선 */
 } 
 .line-b{
 	background-color:#D4A017;	/* 분당선 */
@@ -136,22 +145,22 @@
 	color:#D4A017;	/* 분당선 */
 } 
 .line-sb{
-	background-color:#CC1559;	/* 신분당선 */
+	background-color:#BB1833;	/* 신분당선 */
 } 
 .border-line-sb{
-	border-color:#CC1559;	/* 신분당선 */
+	border-color:#BB1833;	/* 신분당선 */
 } 
 .text-line-sb{
-	color:#CC1559;	/* 신분당선 */
+	color:#BB1833;	/* 신분당선 */
 } 
 .line-w{
-	background-color:#7EA344;	/* 우이신설경전철 */
+	background-color:#B7C452;	/* 우이신설경전철 */
 }
 .border-line-w{
-	border-color:#7EA344;	/* 우이신설경전철 */
+	border-color:#B7C452;	/* 우이신설경전철 */
 }
 .text-line-w{
-	color:#7EA344;	/* 우이신설경전철 */
+	color:#B7C452;	/* 우이신설경전철 */
 }
 /* 의정부경전철, 에버라인 */ 
 

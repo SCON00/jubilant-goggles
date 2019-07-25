@@ -7,7 +7,7 @@ public class StationVO {
 	private String stationCode;				// 역코드 - 복수 존재
 	private String stationName;				// 역명 - 테이블마다 다를 수 있다
 	private String stationNameEng;			// 영문명
-	private String lineNumber;				// 호선
+	private String line;					// 호선
 	private String fCode;					// 외부코드
 	private String xCoord;					// X 좌표
 	private String yCoord;					// Y 좌표
@@ -43,12 +43,7 @@ public class StationVO {
 	public void setStationNameEng(String stationNameEng) {
 		this.stationNameEng = stationNameEng;
 	}
-	public String getLineNumber() {
-		return lineNumber;
-	}
-	public void setLineNumber(String lineNumber) {
-		this.lineNumber = lineNumber;
-	}
+	
 	public String getfCode() {
 		return fCode;
 	}
@@ -102,6 +97,12 @@ public class StationVO {
 	}
 	public void setsToilet(String sToilet) {
 		this.sToilet = sToilet;
+	}
+	public String getLine() {
+		return line;
+	}
+	public void setLine(String line) {
+		this.line = line;
 	}
 	
 	

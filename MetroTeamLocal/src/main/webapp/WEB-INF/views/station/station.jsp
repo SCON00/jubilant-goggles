@@ -20,38 +20,43 @@
 			<div class='col-lg'>
 				
 				<ul class="nav nav-tabs ml-1 mr-1">
+					<c:forEach var='m' items="${lines}">
 					<li class="nav-item">
-						<a class="nav-link active" href="#">${result.lineNumber}</a>
+						<a class="nav-link" href="#">${m.key}</a>
+					</li>
+					</c:forEach>
+					<li class="nav-item">
+						<a class="nav-link active" href="#">${result.line}</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
 				</ul>
-				<div class="card-group m-2">
-					<div class="card border-line02 mb-3" >
-						<div class="card-header bg-transparent border-line02 text-line02">Header</div>
-						<div class="card-body text-line02">
+				<div class="card-group m-2" id="liveStation">
+					<div class="card border-line03 mb-3" >
+						<div class="card-header bg-transparent border-line03 text-line03">Header</div>
+						<div class="card-body text-line03">
 							<h5 class="card-title">card title</h5>
 							<!-- <p class="card-text">Some quick example text to build on the
 								card title and make up the bulk of the card's content.</p> -->
 						</div>
-						<div class="card-footer bg-transparent border-line02 text-line02">Footer</div>
+						<div class="card-footer bg-transparent border-line03 text-line03">Footer</div>
 					</div>
-					<div class="card line02 mb-3" >
-						<div class="card-header bg-transparent border-line02 text-white text-left"><i class='fas fa-angle-left'></i>서초</div>
+					<div class="card line03 mb-3" >
+						<div class="card-header bg-transparent border-line03 text-white text-left"><i class='fas fa-angle-left'></i>고속터미널</div>
 						<div class="card-body text-white">
 							<h5 class="card-title">${result.stationName}</h5>
 							<%-- <p class="card-text">${result.ure}</p> --%>
 						</div>
-						<div class="card-footer bg-transparent border-line02 text-white text-right">강남<i class="fas fa-angle-right"></i></div>
+						<div class="card-footer bg-transparent border-line03 text-white text-right">남부터미널<i class="fas fa-angle-right"></i></div>
 					</div>
-					<div class="card border-line02 mb-3" >
-						<div class="card-header bg-transparent border-line02 text-line02">Header</div>
-						<div class="card-body text-line02">
+					<div class="card border-line03 mb-3" >
+						<div class="card-header bg-transparent border-line03 text-line03">Header</div>
+						<div class="card-body text-line03">
 							<h5 class="card-title">card title</h5>
 							<!-- <p class="card-text">Some quick example text to build on the
 								card title and make up the bulk of the card's content.</p> -->
 						</div>
-						<div class="card-footer bg-transparent border-line02 text-line02">Footer</div>
+						<div class="card-footer bg-transparent border-line03 text-line03">Footer</div>
 					</div>
 				</div>
 				
@@ -68,7 +73,7 @@
 				<hr/>
 				<div>
 					<!-- 주변 역 노선도 -->
-					<table class="table table-sm table-borderless text-center text-line02 table-schedule m-2">
+					<table class="table table-sm table-borderless text-center text-line03 table-schedule m-2">
 						<caption>List of users</caption>
 						<tbody>
 							<tr>
@@ -100,7 +105,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<table class="table table-sm table-borderless text-center text-line02 table-schedule m-2">
+					<table class="table table-sm table-borderless text-center text-line03 table-schedule m-2">
 						<caption>List of users</caption>
 						<tbody>
 							<tr>
@@ -263,6 +268,10 @@ $(function(){
 	});
 	var code = $('#station-code').val();
 	stationMap(code);	
+	/* setInterval(function(){ */
+		trainSchedule("03호선",code, 1);
+		trainSchedule("03호선",code, 2);
+	/* },5000); */
 })
 </script>
 </body>

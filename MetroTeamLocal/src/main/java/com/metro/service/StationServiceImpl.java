@@ -117,4 +117,10 @@ public class StationServiceImpl implements StationService{
 		
 		return stationDAO.selectExitInfo(stationCode);
 	}
+
+	@Override
+	public Map<String, List<StationVO>> getLineList(String stationCode) {
+		
+		return stationDAO.selectLines(stationCode);
+	}
 }

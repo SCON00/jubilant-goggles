@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="stationCode" column="STATION_CODE" />
 		<result property="stationName" column="STATION_NAME" />
 		<result property="stationNameEng" column="STATION_NAME_ENG" />
-		<result property="lineNumber" column="LINE" />
+		<result property="line" column="LINE" />
 		<result property="fCode" column="F_CODE" />
 		
 	</resultMap>
@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE station_code = #{stationCode}
 	</select>
 	
-	<select id="selectStationByID" parameterType="String" resultMap="stationResult">
+	<select id="selectStationByID" parameterType="String" resultType="station">
 		SELECT * FROM stations 
 		WHERE station_code = #{value} 
 	</select>
@@ -58,4 +58,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND exit_number = #{exitNumber} 	
 	</select>
 	
+	<select id="selectLinesByID" parameterType="String" resultType="String">
+		SELECT line FROM stations 
+		WHERE station_name = (
+								SELECT station_name 
+								FROM stations 
+								WHERE station_code = #{value}
+							 )
+	</select>
+	
+	<select id="selectAllByLine" parameterType="String" resultType="station">
+		SELECT line, station_code, station_name 
+		FROM stations 
+		WHERE line= #{value}
+	</select>
 </mapper>

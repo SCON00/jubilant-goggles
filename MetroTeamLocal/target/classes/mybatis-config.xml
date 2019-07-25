@@ -3,7 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
 <!-- alias 설정 -->
 <typeAliases>
 	<typeAlias type="com.metro.domain.MemberVO" alias='member'/>
@@ -11,4 +13,3 @@
 	<typeAlias type="com.metro.domain.CsVO" alias='cs'/>
 </typeAliases>
 </configuration>
-
