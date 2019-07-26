@@ -1,5 +1,6 @@
 package com.metro.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,19 +54,31 @@ public class StationDAOImpl implements StationDAO {
 	}
 
 	/**
-	 * 역 기준 노선도 조회
+	 * 역 기준 노선도 조회 - {"02호선" : {"1" : List<StationVO>},...
 	 */
 	@Override
-	public Map<String, List<StationVO>> selectLines(String stationCode) {
+	public Map<String, List<List<StationVO>>> selectLines(String stationCode) {
 		
-		List<String> lineList = mybatis.selectList("station.selectLinesByID", stationCode);
-		
-		Map<String, List<StationVO>> data = new HashMap<String, List<StationVO>>();
-		for(String s : lineList) {
-			List<StationVO> vo = mybatis.selectList("station.selectAllByLine", s);
-			data.put(s, vo);
+		List<StationVO> lineList = mybatis.selectList("station.selectLinesByID", stationCode);
+		// lineList = [{'02호선','0223'},...]
+		Map<String, List<List<StationVO>>> dataSet = new HashMap<String, List<List<StationVO>>>();		
+			
+		for(StationVO s : lineList) {
+			List<List<StationVO>> data = new ArrayList<List<StationVO>>();
+			for(int i = 1; i <= 2; i++) {
+				s.setInOrOut(i);
+				List<StationVO> vo = mybatis.selectList("station.selectByLineAndId", s);
+				data.add(vo);
+			}
+			dataSet.put(s.getLine(),data);
 		}
-		return data;
+		System.out.println(dataSet.toString());
+		return dataSet;
+	}
+
+	@Override
+	public List<StationVO> selectStationCodes(String stationCode) {
+		return mybatis.selectList("station.selectStationCodes", stationCode);
 	}
 	
 	

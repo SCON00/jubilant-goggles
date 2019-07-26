@@ -58,8 +58,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND exit_number = #{exitNumber} 	
 	</select>
 	
-	<select id="selectLinesByID" parameterType="String" resultType="String">
-		SELECT line FROM stations 
+	<select id="selectLinesByID" parameterType="String" resultType="station">
+		SELECT line, station_code FROM stations 
 		WHERE station_name = (
 								SELECT station_name 
 								FROM stations 
@@ -71,5 +71,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT line, station_code, station_name 
 		FROM stations 
 		WHERE line= #{value}
+	</select>
+	
+	<select id="selectByLineAndId" parameterType="station" resultType="station">
+		SELECT * FROM (
+			SELECT * 
+			FROM stations 
+			WHERE line= #{line} AND station_code 
+				<choose>
+					<when test="inOrOut == 1">
+						<![CDATA[>=]]>
+					</when>
+					<otherwise>
+						<![CDATA[<=]]>
+					</otherwise>
+				</choose> 
+				#{stationCode}        
+			ORDER BY station_code <if test="inOrOut == 2">DESC</if>
+			) 
+		WHERE rownum <![CDATA[<=]]> 7 <if test="inOrOut == 2">ORDER BY station_code</if>
+	</select>
+	
+	<select id="selectStationCodes" parameterType="String" resultType="station">
+		SELECT station_code, line 
+		FROM stations 
+		WHERE station_name = (
+								SELECT station_name 
+								FROM stations 
+								WHERE station_code = #{value}
+								)
 	</select>
 </mapper>

@@ -1,8 +1,5 @@
 package com.metro.controller;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +16,6 @@ public class StationController {
 	
 	@Autowired
 	private StationService stationService;
-
 	
 	@RequestMapping(value="{url}.do") // 단순 경로 테스트용 
 	public String common(@PathVariable String url) { return "station/" + url; }
@@ -39,7 +35,8 @@ public class StationController {
 		result.setsExits(stationService.getExitInfo(stationCode));		// 출구 정보 조회
 		
 		mv.addObject("result", result);
-		mv.addObject("lines", stationService.getLineList(stationCode));
+		mv.addObject("lines", stationService.getLineList(stationCode));	// 노선 기준 주변 역 리스트
+		mv.addObject("codes", stationService.getCodes(stationCode));	// 해당 역 코드 복수 조회
 		mv.setViewName("station/station");
 		return mv;
 	}

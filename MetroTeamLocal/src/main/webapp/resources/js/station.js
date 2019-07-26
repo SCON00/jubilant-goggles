@@ -237,12 +237,12 @@ function trainSchedule(lineNumber, stationCode, inOrOut){
 					}
 					
 					if(inOrOut == 1){
-						var liveStation = $('#liveStation > div:first-child');
+						var liveStation = $('#liveStation-' + lineNumber + ' > div:first-child');
 						liveStation.find("div:first-child").text(arr[0].destinationName + "(상행)");
 						liveStation.find("div:nth-child(2) > h5").text(Math.floor(arr[0].timeRemain/60) + "분 " + (arr[0].timeRemain%60) + "초");
 						liveStation.find("div:last-child").text("열차 " + arr[0].trainCode);
 					} else {
-						var liveStation = $('#liveStation > div:last-child');
+						var liveStation = $('#liveStation-' + lineNumber + ' > div:last-child');
 						liveStation.find("div:first-child").text(arr[0].destinationName + "(하행)");
 						liveStation.find("div:nth-child(2) > h5").text(Math.floor(arr[0].timeRemain/60) + "분 " + (arr[0].timeRemain%60) + "초");
 						liveStation.find("div:last-child").text("열차 " + arr[0].trainCode);

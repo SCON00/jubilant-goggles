@@ -119,8 +119,14 @@ public class StationServiceImpl implements StationService{
 	}
 
 	@Override
-	public Map<String, List<StationVO>> getLineList(String stationCode) {
+	public Map<String, List<List<StationVO>>> getLineList(String stationCode) {
 		
 		return stationDAO.selectLines(stationCode);
+	}
+
+	@Override
+	public List<StationVO> getCodes(String stationCode) {
+		
+		return stationDAO.selectStationCodes(stationCode);
 	}
 }

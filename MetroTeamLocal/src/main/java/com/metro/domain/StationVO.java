@@ -18,6 +18,7 @@ public class StationVO {
 	private String sPhone;					// 전화번호
 	private String sToilet;					// 화장실 구조
 	private Map<String,String> sExits;		// 출구별 정보
+	private int inOrOut;					// 상행(내선) - 1 , 하행(외선) - 2
 	
 	public Map<String,String> getsExits() {
 		return sExits;
@@ -103,6 +104,26 @@ public class StationVO {
 	}
 	public void setLine(String line) {
 		this.line = line;
+	}
+	public int getInOrOut() {
+		return inOrOut;
+	}
+	public void setInOrOut(int inOrOut) {
+		this.inOrOut = inOrOut;
+	}
+	@Override
+	public String toString() {
+		return "StationVO [" + (stationCode != null ? "stationCode=" + stationCode + ", " : "")
+				+ (stationName != null ? "stationName=" + stationName + ", " : "")
+				+ (stationNameEng != null ? "stationNameEng=" + stationNameEng + ", " : "")
+				+ (line != null ? "line=" + line + ", " : "") + (fCode != null ? "fCode=" + fCode + ", " : "")
+				+ (xCoord != null ? "xCoord=" + xCoord + ", " : "") + (yCoord != null ? "yCoord=" + yCoord + ", " : "")
+				+ (ure != null ? "ure=" + ure + ", " : "") + (useful != null ? "useful=" + useful + ", " : "")
+				+ (sAddress != null ? "sAddress=" + sAddress + ", " : "")
+				+ (sAddressEng != null ? "sAddressEng=" + sAddressEng + ", " : "")
+				+ (sPhone != null ? "sPhone=" + sPhone + ", " : "")
+				+ (sToilet != null ? "sToilet=" + sToilet + ", " : "")
+				+ (sExits != null ? "sExits=" + sExits + ", " : "") + "inOrOut=" + inOrOut + "]";
 	}
 	
 	

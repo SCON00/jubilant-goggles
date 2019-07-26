@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,10 @@
 <body>
 	<h1 class="display-1">STATION</h1>
 	<input type="hidden" id="station-code" value="${result.stationCode}"/>
+	<input type="hidden" id="line-name" value="${result.line}"/>
+	<c:forEach var="m" items="${codes}">
+		<input type="hidden" class="station-codes" id="${m.line}" value="${m.stationCode }"/>
+	</c:forEach>
 	<div class='container-fluid'>
 		<div class='row'>
 		
@@ -22,59 +27,60 @@
 				<ul class="nav nav-tabs ml-1 mr-1">
 					<c:forEach var='m' items="${lines}">
 					<li class="nav-item">
-						<a class="nav-link" href="#">${m.key}</a>
+						<a class="lines-link nav-link bg-${m.key} text-white" href="#">${m.key}</a>
 					</li>
-					</c:forEach>
-					<li class="nav-item">
-						<a class="nav-link active" href="#">${result.line}</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+					</c:forEach>					
 				</ul>
-				<div class="card-group m-2" id="liveStation">
-					<div class="card border-line03 mb-3" >
-						<div class="card-header bg-transparent border-line03 text-line03">Header</div>
-						<div class="card-body text-line03">
-							<h5 class="card-title">card title</h5>
-							<!-- <p class="card-text">Some quick example text to build on the
-								card title and make up the bulk of the card's content.</p> -->
+				<c:forEach var='line' items='${lines}'>
+					<div class="card-group m-2 liveStation" id="liveStation-${line.key}">
+						<div class="card border-${line.key} mb-3" >
+							<div class="card-header bg-transparent border-${line.key} text-${line.key}">Header</div>
+							<div class="card-body text-${line.key}">
+								<h5 class="card-title">card title</h5>
+								<!-- <p class="card-text">Some quick example text to build on the
+									card title and make up the bulk of the card's content.</p> -->
+							</div>
+							<div class="card-footer bg-transparent border-${line.key} text-${line.key}">Footer</div>
 						</div>
-						<div class="card-footer bg-transparent border-line03 text-line03">Footer</div>
-					</div>
-					<div class="card line03 mb-3" >
-						<div class="card-header bg-transparent border-line03 text-white text-left"><i class='fas fa-angle-left'></i>고속터미널</div>
-						<div class="card-body text-white">
-							<h5 class="card-title">${result.stationName}</h5>
-							<%-- <p class="card-text">${result.ure}</p> --%>
+						<div class="card bg-${line.key} mb-3" >
+							<div class="card-header bg-transparent border-${line.key} text-white text-left">
+								<i class='fas fa-angle-left'></i>${line.value[1][fn:length(line.value[1])-2].stationName}
+							</div>
+							<div class="card-body text-white">
+								<h5 class="card-title">${result.stationName}</h5>
+								<%-- <p class="card-text">${result.ure}</p> --%>
+							</div>
+							<div class="card-footer bg-transparent border-${line.key} text-white text-right">
+								${line.value[0][1].stationName}<i class="fas fa-angle-right"></i>
+							</div>
 						</div>
-						<div class="card-footer bg-transparent border-line03 text-white text-right">남부터미널<i class="fas fa-angle-right"></i></div>
-					</div>
-					<div class="card border-line03 mb-3" >
-						<div class="card-header bg-transparent border-line03 text-line03">Header</div>
-						<div class="card-body text-line03">
-							<h5 class="card-title">card title</h5>
-							<!-- <p class="card-text">Some quick example text to build on the
-								card title and make up the bulk of the card's content.</p> -->
-						</div>
-						<div class="card-footer bg-transparent border-line03 text-line03">Footer</div>
-					</div>
-				</div>
-				
-				<div class="collapse" id="collapseExample">
-					<div class="card bg-secondary text-white">
-						<div class="card-header">역 이름</div>
-						<div class="card-body">
-							<h5 class="card-title">${result.stationName}</h5>
-							<p class="card-text lead">${result.ure}</p>
+						<div class="card border-${line.key} mb-3" >
+							<div class="card-header bg-transparent border-${line.key} text-${line.key}">Header</div>
+							<div class="card-body text-${line.key}">
+								<h5 class="card-title">card title</h5>
+								<!-- <p class="card-text">Some quick example text to build on the
+									card title and make up the bulk of the card's content.</p> -->
+							</div>
+							<div class="card-footer bg-transparent border-${line.key} text-${line.key}">Footer</div>
 						</div>
 					</div>
-				</div>
+				</c:forEach>
 				
 				<hr/>
-				<div>
+				<c:forEach var="line" items="${lines}">
+				
+				<div class="lines" id="line-${line.key}">
 					<!-- 주변 역 노선도 -->
-					<table class="table table-sm table-borderless text-center text-line03 table-schedule m-2">
-						<caption>List of users</caption>
+					<c:forEach var="stns" items="${line.value}" varStatus="status">
+					<table class="table table-sm table-borderless text-center text-${line.key} table-schedule m-2">
+						<caption>
+							<c:choose>
+								<c:when test="${status.index == 0}">
+									내선(상행)
+								</c:when>
+								<c:otherwise>외선(하행)</c:otherwise>
+							</c:choose>
+						</caption>
 						<tbody>
 							<tr>
 								<td><i class="fas fa-subway"></i></td>
@@ -95,49 +101,17 @@
 								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
 							</tr>
 							<tr>
-								<td>${result.stationName}</td>						
-								<td>${result.stationName}</td>						
-								<td>${result.stationName}</td>						
-								<td>${result.stationName}</td>						
-								<td>${result.stationName}</td>						
-								<td>${result.stationName}</td>						
-								<td>${result.stationName}</td>						
+								<c:forEach var='stn' items="${stns}">
+									<td>${stn.stationName}</td>								
+								</c:forEach>
+													
 							</tr>
 						</tbody>
 					</table>
-					<table class="table table-sm table-borderless text-center text-line03 table-schedule m-2">
-						<caption>List of users</caption>
-						<tbody>
-							<tr>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-							</tr>
-							<tr>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-							</tr>
-							<tr>
-								<td>${result.stationName}</td>
-								<td>${result.stationName}</td>
-								<td>${result.stationName}</td>
-								<td>${result.stationName}</td>
-								<td>${result.stationName}</td>
-								<td>${result.stationName}</td>								
-								<td>${result.stationName}</td>								
-							</tr>
-						</tbody>
-					</table>
-				</div>	
+					</c:forEach>
+					
+				</div>
+				</c:forEach>	
 				<hr/>
 				<!-- 혼잡도 -->
 				<h5>혼잡도</h5>
@@ -261,6 +235,11 @@
 <script type="text/javascript" src='/resources/js/station.js'></script>
 <script type="text/javascript">
 $(function(){	
+	
+	$('.liveStation').hide();
+	$('.lines').hide();
+	$('#liveStation-' + $('#line-name').val()).show();
+	$('#line-' + $('#line-name').val()).show();
 	setExitInfo($('.exit-map-card').find('.dropdown-toggle').text());
 	
 	$('#exit-list').find('a').on('click',function(){
@@ -268,10 +247,24 @@ $(function(){
 	});
 	var code = $('#station-code').val();
 	stationMap(code);	
-	/* setInterval(function(){ */
+	/* setInterval(function(){ 
 		trainSchedule("03호선",code, 1);
 		trainSchedule("03호선",code, 2);
-	/* },5000); */
+	},5000); */
+	
+	$('.station-codes').each(function(){
+		trainSchedule($(this).attr("id"), $(this).val(),1);
+		trainSchedule($(this).attr("id"), $(this).val(),2);
+	})
+	
+	$('.lines-link').on('click', function(){
+		
+		$('.liveStation').hide();
+		$('.lines').hide();
+		$('#liveStation-' + $(this).text()).show();
+		$('#line-' + $(this).text()).show();
+	});
+	
 })
 </script>
 </body>
