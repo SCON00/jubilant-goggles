@@ -76,6 +76,9 @@ public class StationDAOImpl implements StationDAO {
 		return dataSet;
 	}
 
+	/**
+	 * 해당 역 코드 전부 조회
+	 */
 	@Override
 	public List<StationVO> selectStationCodes(String stationCode) {
 		return mybatis.selectList("station.selectStationCodes", stationCode);

@@ -94,7 +94,7 @@
 					</th>
 					<td>${m.stationName}</td>
 					<td>${m.stationNameEng}</td>
-					<td>${m.lineNumber}</td>
+					<td>${m.line}</td>
 					<td>${m.fCode}</td>
 				</tr>
 			</c:forEach>			

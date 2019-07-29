@@ -210,7 +210,7 @@ function listStation(data){
 				+ data[a]["stationCode"] + "</button></th>");
 		tr.append("<td>" + data[a]["stationName"] + "</td>");
 		tr.append("<td>" + data[a]["stationNameEng"] + "</td>");
-		tr.append("<td>" + data[a]["lineNumber"] + "</td>");
+		tr.append("<td>" + data[a]["line"] + "</td>");
 		tr.append("<td>" + data[a]["fCode"] + "</td>");
 		i++;
 	}
@@ -248,29 +248,8 @@ function trainSchedule(lineNumber, stationCode, inOrOut){
 						liveStation.find("div:last-child").text("열차 " + arr[0].trainCode);
 					}
 					
-					// 차량기준 열차 스케줄 조회 - 역 별 차량 도착 예정 시간
-					$.getJSON("http://openapi.seoul.go.kr:8088/" + apiKey[Math.floor(Math.random()*(apiKey.length))]
-							+ "/json/SearchViaSTNArrivalTimeByTrainService/1/100/"
-							+ arr[0].trainCode + "/" + weekTag + "/" + inOrOut + "/",
-							function(dataSet){
-								var resultSet = dataSet.SearchViaSTNArrivalTimeByTrainService.row;
-								var arr = new Array();
-								for(var i=0; i<resultSet.length; i++){
-									var timeRemain = strToDate(resultSet[i].ARRIVETIME);
-									if(timeRemain < 0) continue;
-									arr.push({
-										"timeRemain" 		: timeRemain,
-										"fCode" 			: resultSet[i].FR_CODE,
-										"stationCode" 		: resultSet[i].STATION_CD,
-										"stationName" 		: resultSet[i].STATION_NM,
-										"destinationName" 	: resultSet[i].SUBWAYENAME,
-										"arriveTime" 		: resultSet[i].ARRIVETIME
-									});
-								}
-								console.log(arr.sort(function(a,b){
-									return a["timeRemain"] - b["timeRemain"];
-								}));
-					});					
+					
+								
 	});
 }
 

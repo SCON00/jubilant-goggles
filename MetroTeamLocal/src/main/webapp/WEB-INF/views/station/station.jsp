@@ -20,6 +20,13 @@
 		<input type="hidden" class="station-codes" id="${m.line}" value="${m.stationCode }"/>
 	</c:forEach>
 	<div class='container-fluid'>
+	<div class="alert alert-info alert-dismissible" role="alert" style="display:none">
+  <strong>Holy guacamole!</strong> <span>You should check in on some of those fields below.</span>
+  <a href="#" class="alert-link">즐겨찾기 목록</a>
+  <button type="button" class="close" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 		<div class='row'>
 		
 			<div class='col-lg'>
@@ -29,7 +36,10 @@
 					<li class="nav-item">
 						<a class="lines-link nav-link bg-${m.key} text-white" href="#">${m.key}</a>
 					</li>
-					</c:forEach>					
+					</c:forEach>
+					<li class="nav-item">
+						<button id="favorite-btn" class="btn btn-outline-warning"><i class="fas fa-star"></i></button>
+					</li>					
 				</ul>
 				<c:forEach var='line' items='${lines}'>
 					<div class="card-group m-2 liveStation" id="liveStation-${line.key}">
@@ -73,36 +83,40 @@
 					<!-- 주변 역 노선도 -->
 					<c:forEach var="stns" items="${line.value}" varStatus="status">
 					<table class="table table-sm table-borderless text-center text-${line.key} table-schedule m-2">
-						<caption>
-							<c:choose>
-								<c:when test="${status.index == 0}">
-									내선(상행)
-								</c:when>
-								<c:otherwise>외선(하행)</c:otherwise>
-							</c:choose>
-						</caption>
+						
+						<c:choose>
+							<c:when test="${status.index == 0}">
+								<caption class="text-right"><i class="fas fa-angle-left"></i>내선(상행)</caption>
+							</c:when>
+							<c:otherwise>
+								<caption>외선(하행)<i class="fas fa-angle-right"></i></caption>
+							</c:otherwise>
+						</c:choose>
+						
 						<tbody>
 							<tr>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-								<td><i class="fas fa-subway"></i></td>
-							</tr>
-							<tr>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
-								<td><i class="fas fa-minus"></i><i class="far fa-circle"></i><i class="fas fa-minus"></i></td>
+								<c:forEach var='stn' items="${stns}">
+								<td>
+									<c:if test="${stn.stationName != '' }">
+										<i class="fas fa-subway"></i>
+									</c:if>
+								</td>
+								</c:forEach>
+								
 							</tr>
 							<tr>
 								<c:forEach var='stn' items="${stns}">
-									<td>${stn.stationName}</td>								
+								<td class="bg-${line.key} text-white">
+									<c:if test="${stn.stationName != '' }">
+										<i class="far fa-circle"></i>
+									</c:if>	
+								</td>
+								</c:forEach>
+								
+							</tr>
+							<tr>
+								<c:forEach var='stn' items="${stns}">
+									<td><a href='/station/station.do/${stn.stationCode}'>${stn.stationName}</a></td>								
 								</c:forEach>
 													
 							</tr>
@@ -114,7 +128,7 @@
 				</c:forEach>	
 				<hr/>
 				<!-- 혼잡도 -->
-				<h5>혼잡도</h5>
+				<h5>혼잡도 - 준비중</h5>
 				<table class="table">
 					<thead>
 						<tr>
@@ -180,6 +194,7 @@
 						<h5 class="card-title">${result.stationName}</h5>
 						<p class="card-text lead">${result.ure}</p>
 					</div>
+					<div class="card-footer">${result.sAddress} <i class="fas fa-phone"></i> ${result.sPhone}</div>
 				</div>
 				<hr/>
 			</div>
@@ -246,17 +261,26 @@ $(function(){
 		setExitInfo($(this).text());
 	});
 	var code = $('#station-code').val();
-	stationMap(code);	
+	
 	/* setInterval(function(){ 
 		trainSchedule("03호선",code, 1);
 		trainSchedule("03호선",code, 2);
 	},5000); */
 	
+	// 역 코드 저장
 	$('.station-codes').each(function(){
 		trainSchedule($(this).attr("id"), $(this).val(),1);
 		trainSchedule($(this).attr("id"), $(this).val(),2);
-	})
+	});
 	
+	setInterval(function(){ 
+		$('.station-codes').each(function(){
+			trainSchedule($(this).attr("id"), $(this).val(),1);
+			trainSchedule($(this).attr("id"), $(this).val(),2);
+		});
+	},5678);
+	
+	// 호선 정보 변경
 	$('.lines-link').on('click', function(){
 		
 		$('.liveStation').hide();
@@ -265,6 +289,89 @@ $(function(){
 		$('#line-' + $(this).text()).show();
 	});
 	
+	// 즐겨찾기 버튼 클릭
+	$('#favorite-btn').click(function(){
+		if($(this).hasClass("btn-outline-secondary")){
+			$(this).removeClass("btn-outline-secondary");
+			$(this).addClass("btn-outline-warning");
+			$(this).find("i").removeClass("far");
+			$(this).find("i").addClass("fas");
+			favoriteDo($('#station-name').text(),"add");			
+			$('.alert > strong').text("추가 성공!");
+			$('.alert > span').text("즐겨찾기에 등록 하였습니다.");
+			$('.alert').show();
+		} else {
+			$(this).removeClass("btn-outline-warning");
+			$(this).addClass("btn-outline-secondary");
+			$(this).find("i").removeClass("fas");
+			$(this).find("i").addClass("far");
+			favoriteDo($('#station-name').text(),"remove");
+			$('.alert > strong').text("제거 완료!");
+			$('.alert > span').text("즐겨찾기를 수정 하였습니다.");
+			$('.alert').show();
+		}
+	});
+	var addFvList=new Array();	// 이전에 추가해놓은 즐겨찾기 목록
+   	var sessionRealMid = '<%=(String) session.getAttribute("realMid")%>';
+    if(sessionRealMid != '' || sessionRealMid != 'null'){
+    	// ajax로 즐겨찾기 목록 갖고와서 addFvList에 넣어놓기
+    	$.ajax({
+    		type: "get",
+			async : true,
+			url : "../member/getfavoritelist.do",
+			contentType : 'application/x-www-form-urlencoded;charset=UTF-8',
+			success : function(data){
+				$.each(JSON.parse(data), function(){
+					addFvList.push(this.STATION_NAME);
+				});
+				if($.inArray($('#station-name').text(),addFvList)){
+					$('#favorite-btn').removeClass("btn-outline-secondary");
+					$('#favorite-btn').addClass("btn-outline-warning");
+					$('#favorite-btn').find("i").removeClass("far");
+					$('#favorite-btn').find("i").addClass("fas");
+				}
+			}
+    	});
+    }
+	// 즐겨찾기 관리 함수
+	function favoriteDo(value, key){
+		var sessionRealMid = '<%=(String) session.getAttribute("realMid")%>';
+        if(sessionRealMid == '' || sessionRealMid == 'null'){
+     	   alert('즐겨찾기 추가는 회원만 가능합니다. ');
+     	   return false;
+        }
+ 	  
+ 	   if(key == "add"){ 		   
+ 		   
+ 		   $.ajax({
+ 			   async : true,
+        		   url : "../member/addfavoritelist.do",
+ 			   contentType : 'application/x-www-form-urlencoded;charset=UTF-8',
+ 			   data : {sname : value},
+ 			   error : function(){
+ 				   return false;
+ 			   }
+ 		   }); 
+ 	   } else{ 
+ 		  
+ 		   $.ajax({
+ 			   async : true,
+        		   url : "../member/editFavoriteBySname.do",
+ 			   contentType : 'application/x-www-form-urlencoded;charset=UTF-8',
+ 			   data : {sname : value},
+ 			   error : function(){
+ 				  return false;
+ 			   }
+ 		   });
+ 	   }
+ 	   
+	}
+	// 알림창 닫기
+	$('.close').click(function(){
+		$('.alert').hide();
+	});
+	
+	stationMap(code);	
 })
 </script>
 </body>
